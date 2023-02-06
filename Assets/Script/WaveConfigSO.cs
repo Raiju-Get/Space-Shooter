@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Wave Config", fileName ="New Wave Config")]
+public class WaveConfigSO : ScriptableObject
+{
+    [SerializeField] List<GameObject> enemyPrefabs;
+    [SerializeField] Transform pathPrefab;
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float timeBetween = 1f;
+    [SerializeField] float spawntimeRandom = 0f;
+    [SerializeField] float miniSpawnTime = 0.2f;
+
+
+    public int GetEnemyCount()
+    {
+        return enemyPrefabs.Count;
+    }
+
+    public GameObject GetEnemyPreFab(int index)
+    {
+        return enemyPrefabs[index];
+    }
+    public Transform GetStartingWaypoint()
+    {
+        return pathPrefab.GetChild(0);
+    }
+
+    public List<Transform> GetWaypoint()
+    {
+
+        List<Transform> wayPoints = new List<Transform>();
+        foreach (Transform child in pathPrefab)
+        {
+            wayPoints.Add(child);
+        }
+        return wayPoints;
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public float GetRandomSpawnTime()
+    {
+        float spawnTime = Random.Range(timeBetween - spawntimeRandom, timeBetween + spawntimeRandom);
+        return Mathf.Clamp(spawnTime, miniSpawnTime, float.MaxValue);
+    }
+}
